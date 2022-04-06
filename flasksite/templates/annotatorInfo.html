@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block scripts %}
+    {{ super() }}
+<script type="text/javascript" src="static/flasksite.js" xmlns="http://www.w3.org/1999/html">
+</script>
+{% endblock %}
+
+
+{% block app_content %}
+<div class="row">
+    <div class="col-md-8">
+        {% if not name %}
+        <h1>
+            Hello!
+        </h1>
+        <p> Thank you very much for helping me! To teach robots to evaluate the environments they operate in, I am making a machine learning model which can interpret the ways in which different objects can be used. To do this, need to know the uses of a lot of common objects. By linking these 'uses' (also called <i>affordances</i>) you can help me make better robots!
+            <br> <br>
+            On this website, you will see an object name and are able to indicate to what use you would put that object. You can select multiple affordances, as some objects can be used for multiple things. Here is an example of what this looks like:
+            <br><br>
+            This object:<br>
+            <input type="checkbox"> can be picked up<br>
+            <input type="checkbox"> can be opened
+            <br><br>
+            To get started, fill in a username in the box below. Filling in a username prevents you from seeing the same object label more than once. To remember your progress, your username is saved in a cookie. By filling in a username, you agree with the placement of the cookie.
+
+        </p> <br> <h2> Thank you very much for helping!</h2>
+
+        {% elif currentObject %}
+        <div class="container">
+            <div class="row">
+                <br><br>
+                <b>Vragen?</b>
+                <p>Mail onderzoeksleider <a href="mailto:l.schootuiterkamp@student.utwente.nl">Luc Schoot Uiterkamp</a></p>
+            </div>
+            <a href="https://www.utwente.nl/" target="_blank">
+                <img src="{{url_for('static', filename='UT_Logo_2400_Black_EN.png')}}" style="display: block;margin-left: auto;  margin-right: auto;  width: 35%;">
+            </a>
+        </div>
+        <div class="container">
+            <h3>
+                Gebruikersnaam: {{ name }}
+            </h3>
+
+
+
+            <h2>
+                Current object label:
+            </h2>
+            <br>
+<!--            <div class="col-sm-1 col-md-1" style="display: flex;justify-content: left;align-items: center;">-->
+<!--                <svg style="width:30px;height:30px" viewBox="0 0 24 24"><path fill="#77DD77" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>-->
+<!--            </div>-->
+            <div class="col-sm-11 col-md-11">
+                {{ currentObject }}
+            </div>
+        {% endif %}
+            <br>
+            <br>
+            <form id="mainform" class="form form-horizontal, col-md-8" method="POST" action="/" style="padding:20px">
+                {{ form.csrf_token }}
+                {% if not name %}
+                <div class="row">
+                    <div class="form-group">
+                        <input type="checkbox" id="consentbutton" required>
+                        Ik ga akkoord met het plaatsen van een cookie en met de deelname aan het onderzoek. <br>
+                        {{ wtf.form_field(form.annotatorNamefield) }}
+                        {{ wtf.form_field(form.submitName) }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if name %}
+                {{ form.annotatorName(value = name, type='hidden') }}
+
+                {{ wtf.form_field(form.aff_roll ) }}
+                {{ wtf.form_field(form.aff_fragile ) }}
+                {{ wtf.form_field(form.aff_stack ) }}
+                {{ wtf.form_field(form.aff_grasp ) }}
+                {{ wtf.form_field(form.aff_cut_scoop ) }}
+                {{ wtf.form_field(form.aff_support ) }}
+                {{ wtf.form_field(form.aff_wrap ) }}
+                {{ wtf.form_field(form.aff_push ) }}
+                {{ wtf.form_field(form.aff_drag ) }}
+                {{ wtf.form_field(form.aff_carry ) }}
+                {{ wtf.form_field(form.aff_open ) }}
+                {{ wtf.form_field(form.aff_pour ) }}
+                {{ wtf.form_field(form.aff_observe ) }}
+                {{ wtf.form_field(form.aff_hit ) }}
+                {{ wtf.form_field(form.aff_none ) }}
+                {{ wtf.form_field(form.aff_pull ) }}
+                {{ wtf.form_field(form.aff_tip ) }}
+                {{ wtf.form_field(form.aff_warmth ) }}
+                {{ wtf.form_field(form.aff_illumination) }}
+                {{ wtf.form_field(form.aff_walk ) }}
+                {{ wtf.form_field(form.aff_move ) }}
+                {{ wtf.form_field(form.aff_no_clue) }}
+
+                {% endif %}
+                {% if posts %}
+                {% if posts[:postIndex].__len__() > 1 %}
+                <br>
+                <span id="antecedentMessage">Klik op het voorgaande bericht waar het huidige bericht een reactie op is of vul het nummer van het bericht hier in::</span>
+                {{ wtf.form_field(form.antecedent, value=null) }}
+                {% else %}
+                {{ form.antecedent(value=1, type='hidden') }}
+                {% endif %}
+
+                <!--                </div>-->
+                <!--            </div>-->
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <span id="errormessage" style="color:red;display:None;">Als het bericht een uitdrukking van empathie is moeten de soort en de emotie aangegeven worden.</span>
+                        <br>
+                        <span id="submitmessage"></span>
+
+                        {{ wtf.form_field(form.submit) }}
+                        <br>
+                        <br>
+                        <button class="btn btn-secondary" onclick="window.history.back();" style="display: flex;justify-content: center;align-items: center;"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M7,12L12,7V10H16V14H12V17L7,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12Z" />
+</svg> Terug</button>
+                    </div>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
