@@ -1,30 +1,52 @@
-{% extends 'bootstrap/base.html' %}
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
 
-{% block title %}
-     {% if title %}{{ title }}Empathy annotator{% else %}Empathy annotation for Kindertelefoon NLP project.{% endif %}
-{% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block navbar %}
-    <nav class="navbar navbar-default" style="display: flex;justify-content: left;align-items: center;">
-<button class="btn btn-secondary" onclick="window.history.back();" style="display: flex;justify-content: center;align-items: center;"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M7,12L12,7V10H16V14H12V17L7,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12Z" />
-</svg> Terug</button>
-    </nav>
-{% endblock %}
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+        {% endblock %}
 
-{% block content %}
-    <div class="container">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-info" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
+        <title>Affordance annotator</title>
+        {% endblock %}
+    </head>
+    <body>
+        <!-- Your page content -->
 
-        {# application content needs to be provided in the app_content block #}
-        {% block app_content %}{% endblock %}
-    </div>
+    {% block content %}
+    {% block navbar %}
+        <nav class="navbar navbar-default" style="display: flex;justify-content: left;align-items: center;">
+        <button class="btn btn-secondary" onclick="window.history.back();" style="display: flex;justify-content: center;align-items: center;"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M7,12L12,7V10H16V14H12V17L7,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12Z" />
+        </svg> Terug</button>
+        </nav>
+    {% endblock %}
+        <div class="container">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {# application content needs to be provided in the app_content block #}
+            {% block app_content %}{% endblock %}
+        </div>
 
 
-{% endblock %}
+    {% endblock %}
+
+    {% block scripts %}
+        <!-- Optional JavaScript -->
+        {{ bootstrap.load_js() }}
+    {% endblock %}
+    </body>
+</html>
+
+
