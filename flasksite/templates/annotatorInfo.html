@@ -23,16 +23,35 @@
             <br> <br>
             On this website, you will see an object name and are able to indicate to what use you would put that object. You can select multiple affordances, as some objects can be used for multiple things. Here is an example of what this looks like:
             <br><br>
+            <hr/>
             <div class="page-header">
-                <h3> Water bottle </h3>
+                <h1> Water bottle </h1>
             </div>
             <br>
-            <div class="card">
+            <div class="card" >
                 <div class="card-header">
-                    <h5><input type="checkbox"> Moveable </h5>
+                <h5><input class="form-check-input mt-0" type="checkbox"> can be moved in an unconstrained manner  </h5>
                 </div>
-                <div class="card-body"> This object:<br> <input type="checkbox"> can be picked up</div>
+                <div class="card-body"> The Water bottle:<br>
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Radio button for following text input">
+                        </div>
+                      <span class="input-group-text bg-white">can be carried</span>
+                      <span class="input-group-text bg-white text-muted">small objects eg. pen, book</span>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Radio button for following text input">
+                          </div>
+                      <span class="input-group-text bg-white">can serve to pour something out of</span>
+                      <span class="input-group-text bg-white text-muted">eg. cup, flask</span>
+                    </div>
+                </div>
             </div>
+            <hr/>
+            <br><br>
+            Please keep in mind what the object usually is meant to afford. For example, a wall <i>can</i> be pushed, but this usually achieves nothing. For this reason, 'wall' is not annotated as 'pushable'. On the other hand, a water bottle needs to be picked up in order to be used, hence it should be labeled as such. Objects can have multiple affordances, the water bottle for example not only affords picking up, but also pouring out of.
 
             <br><br>
             To get started, fill in a username in the box below. Filling in a username prevents you from seeing the same object label more than once. To remember your progress, your username is saved in a cookie. By filling in a username, you agree with the placement of the cookie.
@@ -60,27 +79,30 @@
             <form id="mainform" class="form form-horizontal, col-md" method="POST" action="/" style="padding:20px">
 
                 {% if not name %}
-<!--                <div class="row">-->
-                    <div class="form-group">
-                        <input type="checkbox" id="consentbutton" required>
-                        I consent to participating in the study and to the placement of a cookie. <br><br>
-                        {{ BSform.render_field(form.annotatorNamefield) }}
-                        {{ BSform.render_field(form.submitName) }}
-                    </div>
-<!--                </div>-->
+                <input id="name_form" name="form_type" value="name" hidden>
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="radio" required value="" aria-label="Radio button for following text input">
+                  </div>
+                    <span class="input-group-text bg-white">I consent to participating in the study and to the placement of a cookie.</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username" required>
+                <div class="col d-flex flex-row">
+                        <button class="btn btn-primary btn-lg" type="button">Submit</button>
+                </div>
                 {% endif %}
 
                 {% if name %}
-
-
+                <input id="aff_form" name="form_type" value="aff" style="hidden;">
+                <input id="currentObject" name="currentObject" value="{{ currentObject }}" style="hidden;">
                 {% for form, highlevel in zip(forms[2:], forms[0].keys()) %}
-                <div class="row">
+                <div class="row gy-2">
                     <div class="col">
                         <div class="card" >
                             <div class="card-header">
                             <h5><input class="form-check-input mt-0" type="checkbox" id="{{ highlevel }}"> {{ forms[0][highlevel] }}  </h5>
                             </div>
-                            <div class="card-body"> The {{ currentObject }}:<br>
+                            <div class="card-body"> The {{ currentObject[0] }}:<br>
                                 {% for item in form.keys() %}
                                 <div class="input-group">
                                   <div class="input-group-text">
@@ -107,12 +129,17 @@
                         <br>
                         <span id="submitmessage"></span>
                     </div>
-                    <div class="col-md">
-                    <button class="btn btn-secondary" onclick="window.history.back();" style="display: flex;justify-content: center;align-items: center;"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                </div>
+                <div class="row">
+                    <div class="col d-flex flex-row">
+<!--                        <div class="input-group">-->
+                            <button class="btn btn-secondary btn-lg" onclick="window.history.back();" style="display: flex;justify-content: center;align-items: center;"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
     <path fill="currentColor" d="M7,12L12,7V10H16V14H12V17L7,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12Z" />
-                    </svg> Back</button> </div>
-                    <div class="col-md">
-<!--                         BSform.render_field(form.submit) -->
+                    </svg> Back</button>
+<!--                        </div>-->
+                    </div>
+                    <div class="col d-flex flex-row-reverse">
+                        <button class="btn btn-primary btn-lg" type="button">Submit</button>
                     </div>
                 </div>
                 {% endif %}

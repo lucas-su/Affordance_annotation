@@ -110,21 +110,21 @@ def saveAnnotation(form):
     mycursor = mydb.cursor()
 
     sql = 'SELECT anno_1_name FROM web_annotations WHERE ID = %S'
-    variables = (form.currentObject)
+    variables = (form.get('currentObject'))
     mycursor.execute(sql, variables)
     name = next(mycursor)
     if name == "":
         annotNumber = 1
     else:
         sql = 'SELECT anno_2_name FROM web_annotations WHERE ID = %S'
-        variables = (form.currentObject)
+        variables = (form.get('currentObject'))
         mycursor.execute(sql, variables)
         name = next(mycursor)
     if name == "":
         annotNumber = 2
     else:
         sql = 'SELECT anno_3_name FROM web_annotations WHERE ID = %S'
-        variables = (form.currentObject)
+        variables = (form.get('currentObject'))
         mycursor.execute(sql, variables)
         name = next(mycursor)
     if name == "":
@@ -155,30 +155,30 @@ def saveAnnotation(form):
           'anno_{annotNumber}_movable,' \
           'anno_{annotNumber}_no_clue,' \
           'anno_{annotNumber}_id) ' \
-          'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,)'
+          'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
 
-    variables = (form.aff_roll.data,
-                 form.aff_fragile.data,
-                 form.aff_stack.data,
-                 form.aff_grasp.data,
-                 form.aff_cut_scoop.data,
-                 form.aff_support.data,
-                 form.aff_wrap.data,
-                 form.aff_push.data,
-                 form.aff_drag.data,
-                 form.aff_carry.data,
-                 form.aff_open.data,
-                 form.aff_pour.data,
-                 form.aff_observe.data,
-                 form.aff_hit.data,
-                 form.aff_none.data,
-                 form.aff_pull.data,
-                 form.aff_tip.data,
-                 form.aff_warmth.data,
-                 form.aff_illumination.data,
-                 form.aff_walk.data,
-                 form.aff_move.data,
-                 form.aff_no_clue.data)
+    variables = (form.get('aff_roll'),
+                 form.get('aff_fragile'),
+                 form.get('aff_stack'),
+                 form.get('aff_grasp'),
+                 form.get('aff_cut_scoop'),
+                 form.get('aff_support'),
+                 form.get('aff_wrap'),
+                 form.get('aff_push'),
+                 form.get('aff_drag'),
+                 form.get('aff_carry'),
+                 form.get('aff_open'),
+                 form.get('aff_pour'),
+                 form.get('aff_observe'),
+                 form.get('aff_hit'),
+                 form.get('aff_none'),
+                 form.get('aff_pull'),
+                 form.get('aff_tip'),
+                 form.get('aff_warmth'),
+                 form.get('aff_illumination'),
+                 form.get('aff_walk'),
+                 form.get('aff_move'),
+                 form.get('aff_no_clue'))
     mycursor.execute(sql, variables)
     mydb.close()
 
@@ -216,19 +216,17 @@ def main():
     forms = annotationForms()
     name = request.cookies.get("annotatorName")
 
-    # if form.validate_on_submit():
-    #     saveAnnotation(form)
-    #     # name = form.annotatorName.data
-    #     currentObject = getNewPosts(name)
-    # elif name:
-    #     currentObject = getNewPosts(name)
-    # elif nameForm.validate_on_submit():
-    #     name = nameForm.annotatorNamefield.data
-    #     currentObject = getNewPosts(name)
-    # else:
-    #     return render_template("annotatorInfo.html", form=annotatorNameForm())
-
-    currentObject = getNewPosts(name)
+    if request.form.get('form_type') == 'aff':
+        saveAnnotation(request.form)
+        # name = form.annotatorName.data
+        currentObject = getNewPosts(name)
+    elif name:
+        currentObject = getNewPosts(name)
+    elif request.form.get('form_type') == 'name':
+        name = request.form.get('annotatorName')
+        currentObject = getNewPosts(name)
+    else:
+        return render_template("annotatorInfo.html")
 
     resp = make_response(render_template("annotatorInfo.html", forms=forms, currentObject=currentObject, name=name, zip=zip))
     resp.set_cookie("annotatorName", name)
