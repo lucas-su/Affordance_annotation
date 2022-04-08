@@ -23,11 +23,6 @@ def condCreateDir(dir):
             os.mkdir('/'.join(dir.split('/')[:i+1]))
 
 
-class annotatorNameForm(FlaskForm):
-    annotatorNamefield = StringField("Username:",  validators=[DataRequired()])
-    submitName = SubmitField('Save and continue')
-
-
 def annotationForms():
     high_level = {"con_move": "can be moved in a constrained manner",
                   "uncon_move": "can be moved in an unconstrained manner",
@@ -36,7 +31,7 @@ def annotationForms():
                   "observe_affs": "object are made for looking at",
                   "no_affs": "object does not readily offer interaction"}
 
-    con_move = {"roll": ["can be rolled", "eg. trolley"],
+    con_move = {"roll": ["can be rolled", "eg. ball"],
                 "push": ["should be pushed", 'eg. pram'],
                 "drag": ["should be dragged", "eg. rubbish bin"]
                 }
@@ -71,38 +66,6 @@ def annotationForms():
     no_clue_aff = {"no_clue": "Misspelled word/meaning of the word unclear"}
 
     return [high_level, no_clue_aff, con_move, uncon_move, dir_affs, indir_affs, observe_affs, no_affs]
-
-
-
-    #
-    # annotatorName = StringField("Username:", validators=[DataRequired()])
-    # aff_roll = BooleanField('can be rolled', description="description")
-    # aff_fragile = BooleanField('should be handled with care')
-    # aff_stack = BooleanField('can be stacked (onto)')
-    # aff_grasp = BooleanField('can be grasped')
-    # aff_cut_scoop = BooleanField('can serve to cut or scoop')
-    # aff_support = BooleanField('can support other objects')
-    # aff_wrap = BooleanField('can be wrapped in a hand')
-    # aff_push = BooleanField('should be pushed')
-    # aff_drag = BooleanField('should be dragged')
-    # aff_carry = BooleanField('can be carried')
-    # aff_open = BooleanField('can be opened')
-    # aff_pour = BooleanField('can serve to pour something out of')
-    # aff_observe = BooleanField('can be observed')
-    # aff_hit = BooleanField('can be used to hit something')
-    # aff_none = BooleanField('affords no interaction')
-    # aff_pull = BooleanField('has parts that can be pulled')
-    # aff_tip = BooleanField('has buttons that can be pressed')
-    # aff_warmth = BooleanField('gives off warmth')
-    # aff_illumination = BooleanField('illuminates surroundings')
-    # aff_walk = BooleanField('can be walked on')
-    # aff_move = BooleanField('can be moved')
-    # aff_no_clue = BooleanField('Misspelled word/meaning unclear')
-
-
-
-    # currentObject = StringField()
-    # submit = SubmitField('Submit')
 
 
 def saveAnnotation(form):
@@ -190,7 +153,7 @@ def getNewPosts(name):
     variables = (name,)
     mycursor.execute(sql, variables)
     if next(mycursor)[0] == 0:
-        sql = "INSERT INTO users(name) VALUES (%s)"
+        sql = "INSERT INTO users (name) VALUES (%s)"
         variables = (name,)
         mycursor.execute(sql, variables)
     sql = 'SELECT ID FROM users WHERE NAME = %s'
@@ -212,7 +175,7 @@ def getNewPosts(name):
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
-    nameForm = annotatorNameForm()
+
     forms = annotationForms()
     name = request.cookies.get("annotatorName")
 
@@ -226,7 +189,7 @@ def main():
         name = request.form.get('annotatorName')
         currentObject = getNewPosts(name)
     else:
-        return render_template("annotatorInfo.html")
+        return render_template("annotatorInfo.html", forms=forms)
 
     resp = make_response(render_template("annotatorInfo.html", forms=forms, currentObject=currentObject, name=name, zip=zip))
     resp.set_cookie("annotatorName", name)

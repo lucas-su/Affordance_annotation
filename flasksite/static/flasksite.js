@@ -1,3 +1,94 @@
+$(".con_move").change(function(){
+    if(this.checked) {
+    document.getElementById('con_move').checked = true;
+    }
+});
+
+$(".uncon_move").change(function(){
+    if(this.checked) {
+    document.getElementById('uncon_move').checked = true;
+    }
+});
+
+$(".dir_affs").change(function(){
+    if(this.checked) {
+    document.getElementById('dir_affs').checked = true;
+    }
+});
+
+$(".indir_affs").change(function(){
+    if(this.checked) {
+    document.getElementById('indir_affs').checked = true;
+    }
+});
+
+$(".observe_affs").change(function(){
+    if(this.checked) {
+    document.getElementById('observe_affs').checked = true;
+    }
+});
+
+$(".no_affs").change(function(){
+    if(this.checked) {
+    document.getElementById('no_affs').checked = true;
+    }
+});
+
+
+
+
+
+$(document.getElementById('con_move')).change(function(){
+    if(this.checked == false){
+    $(".con_move").each(function(){
+        this.checked = false;
+    })
+    }
+});
+
+$(document.getElementById('uncon_move')).change(function(){
+    if(this.checked == false){
+    $(".uncon_move").each(function(){
+        this.checked = false;
+    })
+    }
+});
+
+$(document.getElementById('dir_affs')).change(function(){
+    if(this.checked == false){
+    $(".dir_affs").each(function(){
+        this.checked = false;
+    })
+    }
+});
+
+$(document.getElementById('indir_affs')).change(function(){
+    if(this.checked == false){
+    $(".indir_affs").each(function(){
+        this.checked = false;
+    })
+    }
+});
+
+$(document.getElementById('observe_affs')).change(function(){
+    if(this.checked == false){
+    $(".observe_affs").each(function(){
+        this.checked = false;
+    })
+    }
+});
+
+$(document.getElementById('no_affs')).change(function(){
+    if(this.checked == false){
+    $(".no_affs").each(function(){
+        this.checked = false;
+    })
+    }
+});
+
+
+
+
 //$(document).ready(function() {
 //    //set initial state.
 //    document.getElementById('empathyType-6').checked = true;
