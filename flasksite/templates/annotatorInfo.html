@@ -15,7 +15,8 @@
         <h1>
             Hello!
         </h1>
-        <p> Thank you very much for helping me! To teach robots to evaluate the environments they operate in, I am making a machine learning model which can interpret the ways in which different objects can be used. To do this, need to know the uses of a lot of common objects. By linking these 'uses' (also called <i>affordances</i>) you can help me make better robots!
+        <p> Thank you very much for helping me! To teach robots to evaluate the environments they operate in, I am making a machine learning model which can interpret the ways in which different objects can be used.
+            To do this, I need to know the uses of a lot of common objects. By linking these 'uses' (also called <i>affordances</i>) you can help me make better robots!
             <br> <br>
             On this website, you will see an object name and are able to indicate to what use you would put that object. You can select multiple affordances, as some objects can be used for multiple things. Here is an example of what this looks like:
             <br><br>
@@ -35,20 +36,24 @@
             </div>
             <br>
             <div class="card" >
+
                 <div class="card-header">
-                <h5><input class="form-check-input mt-0" type="checkbox"> can be moved in an unconstrained manner  </h5>
+                    <div class="input-group" style="padding-top:5px;">
+                        <input class="form-check-input" type="checkbox" id="con_move" value="0" >
+                        <span style="padding-left:10px; "><h5>can be moved in an unconstrained manner </h5></span>
+                    </div>
                 </div>
                 <div class="card-body"> The Water bottle:<br>
                     <div class="input-group">
                         <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Radio button for following text input">
+                            <input class="form-check-input mt-0 con_move" type="checkbox" value="" aria-label="Radio button for following text input">
                         </div>
                       <span class="input-group-text bg-white">can be carried</span>
                       <span class="input-group-text bg-white text-muted">small objects eg. pen, book</span>
                     </div>
                     <div class="input-group">
                         <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Radio button for following text input">
+                            <input class="form-check-input mt-0 con_move" type="checkbox" value="" aria-label="Radio button for following text input">
                           </div>
                       <span class="input-group-text bg-white">can serve to pour something out of</span>
                       <span class="input-group-text bg-white text-muted">eg. cup, flask</span>
@@ -88,7 +93,7 @@
                 <input id="name_form" name="form_type" value="name" hidden>
                 <div class="input-group">
                   <div class="input-group-text">
-                    <input class="form-check-input mt-0" type="radio" required value="" aria-label="Radio button for following text input">
+                    <input class="form-check-input mt-0" type="checkbox" required value="" aria-label="Radio button for following text input">
                   </div>
                     <span class="input-group-text bg-white">I consent to participating in the study and to the placement of a cookie.</span>
                 </div>
@@ -101,14 +106,14 @@
                 {% if name %}
                 <input id="aff_form" name="form_type" value="aff" hidden>
                 <input id="currentObject" name="currentObject" value="{{ currentObject[0] }}" hidden>
+                <input name="annotatorName" value="{{ name }}" hidden>
                 <br>
                 {% for item in forms[1].keys() %}
                 <div class="row" style="padding-top:15px;">
                     <div class="input-group">
                       <div class="input-group-text">
-                        <input class="form-check-input mt-0" type="checkbox" value="" id="{{  item }}" name="{{ item }}">
+                        <input class="form-check-input mt-0" type="checkbox" value="0" id="{{  item }}" name="{{ item }}">
                       </div>
-
                       <span class="input-group-text bg-white">{{ forms[1][item] }}</span>
                     </div>
                  </div>
@@ -119,7 +124,7 @@
                         <div class="card" >
                             <div class="card-header">
                                 <div class="input-group" style="padding-top:5px;">
-                                    <input class="form-check-input" type="checkbox" name="{{ highlevel }}" id="{{ highlevel }}" >
+                                    <input class="form-check-input" type="checkbox" value="0" name="{{ highlevel }}" id="{{ highlevel }}" >
                                     <span style="padding-left:10px; "><h5>{{ forms[0][highlevel] }}</h5></span>
                                 </div>
                             </div>
@@ -127,7 +132,7 @@
                                 {% for item in form.keys() %}
                                 <div class="input-group">
                                   <div class="input-group-text">
-                                    <input class="form-check-input mt-0 {{ highlevel }}" type="checkbox" value="" id="{{ item }}" name="{{ item }}">
+                                    <input class="form-check-input mt-0 {{ highlevel }}" type="checkbox" id="{{ item }}" name="{{ item }}">
                                   </div>
                                   <span class="input-group-text bg-white">{{ form[item][0] }}</span>
                                   <span class="input-group-text bg-white text-muted">{{ form[item][1] }}</span>

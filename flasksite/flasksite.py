@@ -72,77 +72,89 @@ def saveAnnotation(form):
     mydb = connect(secrets)
     mycursor = mydb.cursor()
 
-    sql = 'SELECT anno_1_name FROM web_annotations WHERE ID = %S'
-    variables = (form.get('currentObject'))
+    sql = 'SELECT ID FROM users WHERE name = %s'
+    variables = (form.get('annotatorName'),)
     mycursor.execute(sql, variables)
-    name = next(mycursor)
-    if name == "":
+    id = next(mycursor)[0]
+
+
+    sql = 'SELECT anno_1_id, anno_2_id, anno_3_id FROM web_annotations WHERE object_label = %s'
+    currentObject = form.get('currentObject')
+    variables = (currentObject,)
+    mycursor.execute(sql, variables)
+    result = next(mycursor)
+
+    if result[0] is None:
         annotNumber = 1
-    else:
-        sql = 'SELECT anno_2_name FROM web_annotations WHERE ID = %S'
-        variables = (form.get('currentObject'))
-        mycursor.execute(sql, variables)
-        name = next(mycursor)
-    if name == "":
+    elif result[1] is None:
         annotNumber = 2
-    else:
-        sql = 'SELECT anno_3_name FROM web_annotations WHERE ID = %S'
-        variables = (form.get('currentObject'))
-        mycursor.execute(sql, variables)
-        name = next(mycursor)
-    if name == "":
+    elif result[2] is None:
         annotNumber = 3
     else:
-        return
-    sql = 'INSERT INTO web_annotations ' \
-          '(anno_{annotNumber}_rollable, ' \
-          'anno_{annotNumber}_fragile,' \
-          'anno_{annotNumber}_stackable,' \
-          'anno_{annotNumber}_grasp,' \
-          'anno_{annotNumber}_cut_scoop,' \
-          'anno_{annotNumber}_support,' \
-          'anno_{annotNumber}_wrap_grasp,' \
-          'anno_{annotNumber}_pushable,' \
-          'anno_{annotNumber}_draggable,' \
-          'anno_{annotNumber}_carryable,' \
-          'anno_{annotNumber}_openable,' \
-          'anno_{annotNumber}_pourable,' \
-          'anno_{annotNumber}_observe,' \
-          'anno_{annotNumber}_hit,' \
-          'anno_{annotNumber}_no_interaction,' \
-          'anno_{annotNumber}_pull,' \
-          'anno_{annotNumber}_tip_push,' \
-          'anno_{annotNumber}_warmth,' \
-          'anno_{annotNumber}_illumination,' \
-          'anno_{annotNumber}_walk,' \
-          'anno_{annotNumber}_movable,' \
-          'anno_{annotNumber}_no_clue,' \
-          'anno_{annotNumber}_id) ' \
-          'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+        return  # a race condition occurred and the current annotation is discarded
 
-    variables = (form.get('aff_roll'),
-                 form.get('aff_fragile'),
-                 form.get('aff_stack'),
-                 form.get('aff_grasp'),
-                 form.get('aff_cut_scoop'),
-                 form.get('aff_support'),
-                 form.get('aff_wrap'),
-                 form.get('aff_push'),
-                 form.get('aff_drag'),
-                 form.get('aff_carry'),
-                 form.get('aff_open'),
-                 form.get('aff_pour'),
-                 form.get('aff_observe'),
-                 form.get('aff_hit'),
-                 form.get('aff_none'),
-                 form.get('aff_pull'),
-                 form.get('aff_tip'),
-                 form.get('aff_warmth'),
-                 form.get('aff_illumination'),
-                 form.get('aff_walk'),
-                 form.get('aff_move'),
-                 form.get('aff_no_clue'))
+    sql = f'UPDATE web_annotations SET ' \
+          f'anno_{annotNumber}_rollable = %s, ' \
+          f'anno_{annotNumber}_fragile = %s, ' \
+          f'anno_{annotNumber}_stackable = %s, ' \
+          f'anno_{annotNumber}_grasp = %s, ' \
+          f'anno_{annotNumber}_cut_scoop = %s, ' \
+          f'anno_{annotNumber}_support = %s, ' \
+          f'anno_{annotNumber}_pushable = %s, ' \
+          f'anno_{annotNumber}_draggable = %s, ' \
+          f'anno_{annotNumber}_carryable = %s, ' \
+          f'anno_{annotNumber}_openable = %s, ' \
+          f'anno_{annotNumber}_pourable = %s, ' \
+          f'anno_{annotNumber}_observe = %s, ' \
+          f'anno_{annotNumber}_hit = %s, ' \
+          f'anno_{annotNumber}_no_interaction = %s, ' \
+          f'anno_{annotNumber}_pull = %s, ' \
+          f'anno_{annotNumber}_tip_push = %s, ' \
+          f'anno_{annotNumber}_warmth = %s, ' \
+          f'anno_{annotNumber}_illumination = %s, ' \
+          f'anno_{annotNumber}_walk = %s, ' \
+          f"anno_{annotNumber}_con_move = %s, " \
+          f"anno_{annotNumber}_uncon_move = %s, " \
+          f"anno_{annotNumber}_dir_affs = %s, " \
+          f"anno_{annotNumber}_indir_affs = %s, " \
+          f"anno_{annotNumber}_observe_affs = %s, " \
+          f"anno_{annotNumber}_no_affs = %s, " \
+          f'anno_{annotNumber}_no_clue = %s, ' \
+          f'anno_{annotNumber}_id = %s ' \
+          'WHERE object_label = %s'
+
+
+    variables = ((1 if form.get('roll') is not None else 0),
+                 (1 if form.get('fragile') is not None else 0),
+                 (1 if form.get('stack') is not None else 0),
+                 (1 if form.get('grasp') is not None else 0),
+                 (1 if form.get('cut_scoop') is not None else 0),
+                 (1 if form.get('support') is not None else 0),
+                 (1 if form.get('push') is not None else 0),
+                 (1 if form.get('drag') is not None else 0),
+                 (1 if form.get('carry') is not None else 0),
+                 (1 if form.get('open') is not None else 0),
+                 (1 if form.get('pour') is not None else 0),
+                 (1 if form.get('observe') is not None else 0),
+                 (1 if form.get('hit') is not None else 0),
+                 (1 if form.get('none') is not None else 0),
+                 (1 if form.get('pull') is not None else 0),
+                 (1 if form.get('tip') is not None else 0),
+                 (1 if form.get('warmth') is not None else 0),
+                 (1 if form.get('illumination') is not None else 0),
+                 (1 if form.get('walk') is not None else 0),
+                 (1 if form.get('con_move') is not None else 0),
+                 (1 if form.get('uncon_move') is not None else 0),
+                 (1 if form.get('dir_affs') is not None else 0),
+                 (1 if form.get('indir_affs') is not None else 0),
+                 (1 if form.get('observe_affs') is not None else 0),
+                 (1 if form.get('no_affs') is not None else 0),
+                 (1 if form.get('no_clue') is not None else 0),
+                 id,
+                 currentObject
+                 )
     mycursor.execute(sql, variables)
+    mydb.commit()
     mydb.close()
 
 
@@ -156,6 +168,7 @@ def getNewPosts(name):
         sql = "INSERT INTO users (name) VALUES (%s)"
         variables = (name,)
         mycursor.execute(sql, variables)
+        mydb.commit()
     sql = 'SELECT ID FROM users WHERE NAME = %s'
     variables = (name,)
     mycursor.execute(sql, variables)
@@ -166,6 +179,7 @@ def getNewPosts(name):
           'WHERE anno_3_id IS NULL ' \
           'AND NOT anno_1_id <=> %s ' \
           'AND NOT anno_2_id <=> %s ' \
+          'ORDER BY RAND() ' \
           'LIMIT 1'
     variables = (id, id)
     mycursor.execute(sql, variables)
