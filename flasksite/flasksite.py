@@ -1,7 +1,4 @@
 from flask import Flask, render_template, request, make_response
-from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, SubmitField, IntegerField, RadioField
-from wtforms.validators import DataRequired, NumberRange
 from flask_bootstrap import Bootstrap5
 from waitress import serve
 import mysql.connector
