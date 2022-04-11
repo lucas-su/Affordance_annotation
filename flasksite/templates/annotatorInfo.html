@@ -10,7 +10,7 @@
 
 {% block app_content %}
 <div class="row">
-    <div class="col-md">
+    <div class="col">
         {% if not name %}
         <h1>
             Hello!
@@ -86,7 +86,7 @@
         {% endif %}
 
             <br>
-            <form id="mainform" class="form form-horizontal, col-md" method="POST" action="/" style="padding:20px">
+            <form id="mainform" class="form form-horizontal, col" method="POST" action="/" style="padding:20px">
 
                 {% if not name %}
                 <input id="name_form" name="form_type" value="name" hidden>
@@ -149,13 +149,13 @@
                 {% endif %}
                 {% if currentObject %}
 
-                <div class="row">
-                    <div class="col-md">
-                        <span id="errormessage" style="color:red;display:None;">Als het bericht een uitdrukking van empathie is moeten de soort en de emotie aangegeven worden.</span>
-                        <br>
-                        <span id="submitmessage"></span>
-                    </div>
-                </div>
+<!--                <div class="row">-->
+<!--                    <div class="col-md">-->
+<!--                        <span id="errormessage" style="color:red;display:None;">Als het bericht een uitdrukking van empathie is moeten de soort en de emotie aangegeven worden.</span>-->
+<!--                        <br>-->
+<!--                        <span id="submitmessage"></span>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="row">
                     <div class="col d-flex flex-row">
 <!--                        <div class="input-group">-->
@@ -171,15 +171,17 @@
                 {% endif %}
             </form>
             <div class="container">
-            <div class="row">
-                <br><br>
-                <b>Questions?</b>
-                <p>Mail <a href="mailto:l.schootuiterkamp@student.utwente.nl">Luc Schoot Uiterkamp</a></p>
+                <div class="row">
+                    <br><br>
+                    <h6>Don't overthink it! Go with what you think is normal for this object.</h6>
+                    <br><br>
+                    <b>Questions?</b>
+                    <p>Mail <a href="mailto:l.schootuiterkamp@student.utwente.nl">Luc Schoot Uiterkamp</a></p>
+                </div>
+                <a href="https://www.utwente.nl/" target="_blank">
+                    <img src="{{url_for('static', filename='UT_Logo_2400_Black_EN.png')}}" style="display: block;margin-left: auto;  margin-right: auto;  width: 35%;">
+                </a>
             </div>
-            <a href="https://www.utwente.nl/" target="_blank">
-                <img src="{{url_for('static', filename='UT_Logo_2400_Black_EN.png')}}" style="display: block;margin-left: auto;  margin-right: auto;  width: 35%;">
-            </a>
-        </div>
         </div>
     </div>
 </div>
