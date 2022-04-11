@@ -47,14 +47,14 @@
                 <div class="card-body"> The Water bottle:<br>
                     <div class="input-group flex-nowrap">
                         <div class="input-group-text">
-                            <input class="form-check-input mt-0 con_move" type="checkbox" value="" aria-label="Radio button for following text input">
+                            <input class="form-check-input mt-0 con_move" type="checkbox" value="">
                         </div>
                       <span class="input-group-text bg-white" style="white-space:normal;">can be carried</span>
                       <span class="input-group-text bg-white text-muted" style="white-space:normal;">small objects eg. pen, book</span>
                     </div>
                     <div class="input-group flex-nowrap">
                         <div class="input-group-text">
-                            <input class="form-check-input mt-0 con_move" type="checkbox" value="" aria-label="Radio button for following text input">
+                            <input class="form-check-input mt-0 con_move" type="checkbox" value="">
                           </div>
                       <span class="input-group-text bg-white" style="white-space:normal;">can serve to pour something out of</span>
                       <span class="input-group-text bg-white text-muted" style="white-space:normal;">eg. cup, flask</span>
@@ -93,7 +93,7 @@
                 <input id="name_form" name="form_type" value="name" hidden>
                 <div class="input-group flex-nowrap">
                   <div class="input-group-text">
-                    <input class="form-check-input mt-0" type="checkbox" required value="" aria-label="Radio button for following text input">
+                    <input class="form-check-input mt-0" type="checkbox" required value="">
                   </div>
                     <span class="input-group-text bg-white" style="white-space:normal;">I consent to participating in the study and to the placement of a cookie.</span>
 
@@ -172,7 +172,13 @@
 <!--                        </div>-->
                     </div>
                     <div class="col d-flex flex-row-reverse">
-                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                        <div class="input-group flex-nowrap" style="width:auto;">
+                            <button class="btn btn-primary btn-lg" id="main_form_submit" type="button">Submit</button>
+                            </div>
+                            <div class="input-group-text" id="submit_message">
+                                <span> Select any option to submit form </span>
+                            </div>
+
                     </div>
                 </div>
                 {% endif %}
