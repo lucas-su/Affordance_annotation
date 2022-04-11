@@ -61,7 +61,7 @@ def connect(secrets):
 if __name__ == "__main__":
     with open('../flasksite/secrets.json') as file:
         secrets = json.load(file)
-    annot_table_name = "web_annotations_2"
+    annot_table_name = "web_annotations"
     user_table_name = "users"
     all_affs = flasksite.annotationForms()
     all_aff_keys = []
