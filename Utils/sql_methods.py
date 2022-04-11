@@ -1,4 +1,4 @@
-from flasksite import flasksite
+
 import json, mysql.connector
 
 import sys
@@ -6,7 +6,7 @@ import os
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR[:-5]+'flasksite')) # hack to include correct path on server
-
+from flasksite import flasksite
 
 def drop_tables():
     mydb = connect(secrets)
