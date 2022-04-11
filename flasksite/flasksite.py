@@ -63,7 +63,8 @@ def annotationForms():
 
     all_affs = [high_level, no_clue_aff, con_move, uncon_move, dir_affs, indir_affs, observe_affs, social_affs, no_affs]
 
-    all_aff_keys = [list(aff_set.keys()) for aff_set in all_affs]
+    for aff_set in all_affs:
+        all_aff_keys.extend(list(aff_set.keys()))
 
     return all_affs
 
