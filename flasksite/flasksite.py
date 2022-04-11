@@ -43,14 +43,14 @@ def annotationForms():
                  "cut_scoop": ["can serve to cut or scoop", "eg. knife, spoon, scoop"],
                  "support": ["can support other objects", "surfaces which can you can put something on, eg. desk, table"],
                  "transfer": ["transfers media to other object", "eg. pen, coffeemaker"],
-                 "requires_other": ["requires other objects to be used", "eg. whiteboard (marker), paper (pen)"] ###
+                 "requires_other": ["requires other objects to be used", "eg. whiteboard (marker), paper (pen)"]
                  }
 
     observe_affs = {"info": ["displays information", "eg. screens, information poster"],
                     "deco": ["serves as decoration", "eg. painting"]
                     }
 
-    social_affs = {"together": ["is make to be used in conjuction with others", "eg. foosball table, board game, pingpong table"]
+    social_affs = {"together": ["is made to be used with more than one person", "eg. foosball table, board game, pingpong table"]
                     }
 
     no_affs = {"none": ["affords no interaction", "eg. wall, floor"],
@@ -165,9 +165,9 @@ def connect(secrets):
     return mydb
 
 if __name__ == "__main__":
-    testlist = ['chair','ceiling','wall']
+
     forms = annotationForms()
     with open('secrets.json') as file:
         secrets = json.load(file)
 
-    serve(app, listen="*:8080")
+    serve(app, listen="*:8081")
