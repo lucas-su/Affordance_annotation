@@ -10,30 +10,25 @@ Bootstrap5(app)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-def condCreateDir(dir):
-    """
-    Create a directory if it does not exist yet.
-    """
-    # splitdirs = dir.split('/')
-    for i, _ in enumerate(dir.split('/')):
-        if not os.path.exists('/'.join(dir.split('/')[:i+1])):
-            os.mkdir('/'.join(dir.split('/')[:i+1]))
-
+all_aff_keys = []
 
 def annotationForms():
-    high_level = {"con_move": "can be moved in a constrained manner",
-                  "uncon_move": "can be moved in an unconstrained manner",
+    global all_aff_keys
+    high_level = {"con_move": "object can be moved in a constrained manner",
+                  "uncon_move": "object can be moved in an unconstrained manner",
                   "dir_affs": "object can be interacted with directly",
                   "indir_affs": "object can interact with  other objects",
-                  "observe_affs": "object are made for looking at",
+                  "observe_affs": "object is made for looking at",
+                  "social_affs": "object fullfills social role",
                   "no_affs": "object does not readily offer interaction"}
 
     con_move = {"roll": ["can be rolled", "eg. ball"],
-                "push": ["should be pushed", 'eg. pram'],
-                "drag": ["should be dragged", "eg. rubbish bin"]
+                "push": ["should be pushed", 'eg. stroller'],
+                "drag": ["should be dragged", "eg. rubbish bin"],
+                "tether": ["is tethered", "eg. wired computer mouse"]
                 }
 
-    uncon_move = {"carry": ["can be carried", "small objects eg. pen, book"],
+    uncon_move = {"pick_up_carry": ["can be picked up/carried", "small objects eg. pen, book"],
                   "pour": ["can serve to pour something out of", "eg. cup, flask"]
                   }
 
@@ -47,22 +42,30 @@ def annotationForms():
     indir_affs ={"stack": ["can be stacked (onto)", "eg. plates, stackable chairs"],
                  "cut_scoop": ["can serve to cut or scoop", "eg. knife, spoon, scoop"],
                  "support": ["can support other objects", "surfaces which can you can put something on, eg. desk, table"],
-                 "hit": ["can be used to hit something", "eg. hammer"]
+                 "transfer": ["transfers media to other object", "eg. pen, coffeemaker"],
+                 "requires_other": ["requires other objects to be used", "eg. whiteboard (marker), paper (pen)"] ###
                  }
 
     observe_affs = {"info": ["displays information", "eg. screens, information poster"],
                     "deco": ["serves as decoration", "eg. painting"]
                     }
 
+    social_affs = {"together": ["is make to be used in conjuction with others", "eg. foosball table, board game, pingpong table"]
+                    }
+
     no_affs = {"none": ["affords no interaction", "eg. wall, floor"],
-               "warmth": ["gives off warmth", "eg. fireplace, heater"],
+               "warmth": ["regulates temperature", "eg. fireplace, heater, air conditioning"],
                "illumination": ["illuminates surroundings", "eg. lamp"],
                "walk": ["can be walked on", "eg. floor"]
                }
 
     no_clue_aff = {"no_clue": "Misspelled word/meaning of the word unclear"}
 
-    return [high_level, no_clue_aff, con_move, uncon_move, dir_affs, indir_affs, observe_affs, no_affs]
+    all_affs = [high_level, no_clue_aff, con_move, uncon_move, dir_affs, indir_affs, observe_affs, social_affs, no_affs]
+
+    all_aff_keys = [list(aff_set.keys()) for aff_set in all_affs]
+
+    return all_affs
 
 
 def saveAnnotation(form):
@@ -89,67 +92,15 @@ def saveAnnotation(form):
         annotNumber = 3
     else:
         return  # a race condition occurred and the current annotation is discarded
-
-    sql = f'UPDATE web_annotations SET ' \
-          f'anno_{annotNumber}_rollable = %s, ' \
-          f'anno_{annotNumber}_fragile = %s, ' \
-          f'anno_{annotNumber}_stackable = %s, ' \
-          f'anno_{annotNumber}_grasp = %s, ' \
-          f'anno_{annotNumber}_cut_scoop = %s, ' \
-          f'anno_{annotNumber}_support = %s, ' \
-          f'anno_{annotNumber}_pushable = %s, ' \
-          f'anno_{annotNumber}_draggable = %s, ' \
-          f'anno_{annotNumber}_carryable = %s, ' \
-          f'anno_{annotNumber}_openable = %s, ' \
-          f'anno_{annotNumber}_pourable = %s, ' \
-          f'anno_{annotNumber}_observe = %s, ' \
-          f'anno_{annotNumber}_hit = %s, ' \
-          f'anno_{annotNumber}_no_interaction = %s, ' \
-          f'anno_{annotNumber}_pull = %s, ' \
-          f'anno_{annotNumber}_tip_push = %s, ' \
-          f'anno_{annotNumber}_warmth = %s, ' \
-          f'anno_{annotNumber}_illumination = %s, ' \
-          f'anno_{annotNumber}_walk = %s, ' \
-          f"anno_{annotNumber}_con_move = %s, " \
-          f"anno_{annotNumber}_uncon_move = %s, " \
-          f"anno_{annotNumber}_dir_affs = %s, " \
-          f"anno_{annotNumber}_indir_affs = %s, " \
-          f"anno_{annotNumber}_observe_affs = %s, " \
-          f"anno_{annotNumber}_no_affs = %s, " \
-          f'anno_{annotNumber}_no_clue = %s, ' \
-          f'anno_{annotNumber}_id = %s ' \
-          'WHERE object_label = %s'
+    sql = f'UPDATE web_annotations SET '
+    for key in all_aff_keys:
+        sql += f'anno_{annotNumber}_{key} = %s, '
+    sql += f'anno_{annotNumber}_id = %s WHERE object_label = %s'
 
 
-    variables = ((1 if form.get('roll') is not None else 0),
-                 (1 if form.get('fragile') is not None else 0),
-                 (1 if form.get('stack') is not None else 0),
-                 (1 if form.get('grasp') is not None else 0),
-                 (1 if form.get('cut_scoop') is not None else 0),
-                 (1 if form.get('support') is not None else 0),
-                 (1 if form.get('push') is not None else 0),
-                 (1 if form.get('drag') is not None else 0),
-                 (1 if form.get('carry') is not None else 0),
-                 (1 if form.get('open') is not None else 0),
-                 (1 if form.get('pour') is not None else 0),
-                 (1 if form.get('observe') is not None else 0),
-                 (1 if form.get('hit') is not None else 0),
-                 (1 if form.get('none') is not None else 0),
-                 (1 if form.get('pull') is not None else 0),
-                 (1 if form.get('tip') is not None else 0),
-                 (1 if form.get('warmth') is not None else 0),
-                 (1 if form.get('illumination') is not None else 0),
-                 (1 if form.get('walk') is not None else 0),
-                 (1 if form.get('con_move') is not None else 0),
-                 (1 if form.get('uncon_move') is not None else 0),
-                 (1 if form.get('dir_affs') is not None else 0),
-                 (1 if form.get('indir_affs') is not None else 0),
-                 (1 if form.get('observe_affs') is not None else 0),
-                 (1 if form.get('no_affs') is not None else 0),
-                 (1 if form.get('no_clue') is not None else 0),
-                 id,
-                 currentObject
-                 )
+    variables = [(1 if form.get(f'{key}') is not None else 0) for key in all_aff_keys]
+    variables.extend([id, currentObject])
+
     mycursor.execute(sql, variables)
     mydb.commit()
     mydb.close()
@@ -186,8 +137,6 @@ def getNewPosts(name):
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
-
-    forms = annotationForms()
     name = request.cookies.get("annotatorName")
 
     if request.form.get('form_type') == 'aff':
@@ -217,7 +166,8 @@ def connect(secrets):
 
 if __name__ == "__main__":
     testlist = ['chair','ceiling','wall']
+    forms = annotationForms()
     with open('secrets.json') as file:
         secrets = json.load(file)
 
-    serve(app, listen="*:8081")
+    serve(app, listen="*:8080")
