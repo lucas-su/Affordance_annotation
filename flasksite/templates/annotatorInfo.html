@@ -9,8 +9,8 @@
 
 
 {% block app_content %}
-<div class="row">
-    <div class="col">
+<!--<div class="container">-->
+<!--    <div class="col">-->
         {% if not name %}
         <h1>
             Hello!
@@ -26,36 +26,38 @@
             </div>
             <br>
             <div class="row" style="padding-top:15px;">
-                <div class="input-group">
+                <div class="input-group flex-nowrap">
                   <div class="input-group-text">
                     <input class="form-check-input mt-0" type="checkbox" value="">
                   </div>
 
-                  <span class="input-group-text bg-white">Misspelled word/meaning of the word unclear</span>
+                  <span class="input-group-text bg-white" style="white-space:normal;">Misspelled word/meaning of the word unclear</span>
                 </div>
             </div>
             <br>
             <div class="card" >
                 <div class="card-header">
-                    <div class="input-group" style="padding-top:5px;">
-                        <input class="form-check-input" type="checkbox" id="con_move" value="0" >
-                        <span style="padding-left:10px; "><h5>can be moved in an unconstrained manner </h5></span>
+                    <div class="input-group flex-nowrap" >
+                        <div class="input-group-text" style="background-color:inherit; border-style: none;">
+                            <input class="form-check-input mt-0"  type="checkbox" id="con_move" value="0" >
+                        </div>
+                        <span class="input-group-text" style="white-space:normal; background-color:inherit; border-style: none;"><h5 style="margin-bottom:0;">can be moved in an unconstrained manner </h5></span>
                     </div>
                 </div>
                 <div class="card-body"> The Water bottle:<br>
-                    <div class="input-group">
+                    <div class="input-group flex-nowrap">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0 con_move" type="checkbox" value="" aria-label="Radio button for following text input">
                         </div>
-                      <span class="input-group-text bg-white">can be carried</span>
-                      <span class="input-group-text bg-white text-muted">small objects eg. pen, book</span>
+                      <span class="input-group-text bg-white" style="white-space:normal;">can be carried</span>
+                      <span class="input-group-text bg-white text-muted" style="white-space:normal;">small objects eg. pen, book</span>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group flex-nowrap">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0 con_move" type="checkbox" value="" aria-label="Radio button for following text input">
                           </div>
-                      <span class="input-group-text bg-white">can serve to pour something out of</span>
-                      <span class="input-group-text bg-white text-muted">eg. cup, flask</span>
+                      <span class="input-group-text bg-white" style="white-space:normal;">can serve to pour something out of</span>
+                      <span class="input-group-text bg-white text-muted" style="white-space:normal;">eg. cup, flask</span>
                     </div>
                 </div>
             </div>
@@ -85,16 +87,16 @@
             </div>
         {% endif %}
 
-            <br>
-            <form id="mainform" class="form form-horizontal, col" method="POST" action="/" style="padding:20px">
+            <form id="mainform" class="form form-horizontal, col" method="POST" action="/" >
 
                 {% if not name %}
                 <input id="name_form" name="form_type" value="name" hidden>
-                <div class="input-group">
+                <div class="input-group flex-nowrap">
                   <div class="input-group-text">
                     <input class="form-check-input mt-0" type="checkbox" required value="" aria-label="Radio button for following text input">
                   </div>
-                    <span class="input-group-text bg-white">I consent to participating in the study and to the placement of a cookie.</span>
+                    <span class="input-group-text bg-white" style="white-space:normal;">I consent to participating in the study and to the placement of a cookie.</span>
+
                 </div>
                 <input type="text" class="form-control" name="annotatorName" placeholder="Username" aria-label="Username" required>
                 <div class="col d-flex flex-row">
@@ -109,11 +111,11 @@
                 <br>
                 {% for item in forms[1].keys() %}
                 <div class="row" style="padding-top:15px;">
-                    <div class="input-group">
+                    <div class="input-group flex-nowrap">
                       <div class="input-group-text">
                         <input class="form-check-input mt-0" type="checkbox" value="0" id="{{  item }}" name="{{ item }}">
                       </div>
-                      <span class="input-group-text bg-white">{{ forms[1][item] }}</span>
+                      <span class="input-group-text" style="white-space:normal; background-color:inherit;">{{ forms[1][item] }}</span>
                     </div>
                  </div>
                 {% endfor%}
@@ -122,20 +124,25 @@
                     <div class="col">
                         <div class="card" >
                             <div class="card-header">
-                                <div class="input-group" style="padding-top:5px;">
-                                    <input class="form-check-input" type="checkbox" value="0" name="{{ highlevel }}" id="{{ highlevel }}" >
-                                    <span style="padding-left:10px; "><h5>{{ forms[0][highlevel] }}</h5></span>
+                                <div class="input-group flex-nowrap" >
+                                    <div class="input-group-text" style="background-color:inherit; border-style: none;">
+                                        <input class="form-check-input mt-0"  type="checkbox" name="{{ highlevel }}" id="{{ highlevel }}" >
+                                    </div>
+                                    <span class="input-group-text" style="white-space:normal; background-color:inherit; border-style: none;"><h5 style="margin-bottom:0;">{{ forms[0][highlevel] }}</h5></span>
                                 </div>
                             </div>
                             <div class="card-body"> The {{ currentObject[0] }}:<br>
                                 {% for item in form.keys() %}
-                                <div class="input-group">
-                                  <div class="input-group-text">
-                                    <input class="form-check-input mt-0 {{ highlevel }}" type="checkbox" id="{{ item }}" name="{{ item }}">
-                                  </div>
-                                  <span class="input-group-text bg-white">{{ form[item][0] }}</span>
-                                  <span class="input-group-text bg-white text-muted">{{ form[item][1] }}</span>
+
+
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0 {{ highlevel }}" type="checkbox" id="{{ item }}" name="{{ item }}">
+                                    </div>
+                                  <span class="input-group-text bg-white" style="white-space:normal;">{{ form[item][0] }}</span>
+                                  <span class="input-group-text bg-white text-muted" style="white-space:normal;">{{ form[item][1] }}</span>
                                 </div>
+
                                 {% endfor %}
                             </div>
                         </div>
@@ -173,8 +180,7 @@
             <div class="container">
                 <div class="row">
                     {% if currentObject %}
-                    <br><br>
-                    <h6>Don't overthink it! Go with what you think is normal for this object.</h6>
+                    <h6 style="padding-top:1em;">Don't overthink it! Go with what you think is normal for this object.</h6>
                     {% endif %}
                     <br><br>
                     <b>Questions?</b>
@@ -185,7 +191,7 @@
                 </a>
             </div>
         </div>
-    </div>
-</div>
+<!--    </div>-->
+<!--</div>-->
 
 {% endblock %}
