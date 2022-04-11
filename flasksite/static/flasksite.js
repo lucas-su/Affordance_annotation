@@ -28,6 +28,12 @@ $(".observe_affs").change(function(){
     }
 });
 
+$(".social_affs").change(function(){
+    if(this.checked) {
+    document.getElementById('social_affs').checked = true;
+    }
+});
+
 $(".no_affs").change(function(){
     if(this.checked) {
     document.getElementById('no_affs').checked = true;
@@ -73,6 +79,14 @@ $(document.getElementById('indir_affs')).change(function(){
 $(document.getElementById('observe_affs')).change(function(){
     if(this.checked == false){
     $(".observe_affs").each(function(){
+        this.checked = false;
+    })
+    }
+});
+
+$(document.getElementById('social_affs')).change(function(){
+    if(this.checked == false){
+    $(".social_affs").each(function(){
         this.checked = false;
     })
     }
