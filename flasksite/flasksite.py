@@ -73,7 +73,7 @@ def saveAnnotation(form):
     mydb = connect(secrets)
     mycursor = mydb.cursor()
 
-    sql = 'SELECT ID FROM users WHERE name = %s'
+    sql = 'SELECT ID FROM users WHERE name = %s LIMIT 1'
     variables = (form.get('annotatorName'),)
     mycursor.execute(sql, variables)
     id = next(mycursor)[0]
@@ -118,7 +118,7 @@ def getNewPosts(name):
         variables = (name,)
         mycursor.execute(sql, variables)
         mydb.commit()
-    sql = 'SELECT ID FROM users WHERE NAME = %s'
+    sql = 'SELECT ID FROM users WHERE NAME = %s LIMIT 1'
     variables = (name,)
     mycursor.execute(sql, variables)
     id = next(mycursor)[0]
