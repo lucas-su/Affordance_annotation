@@ -23,8 +23,8 @@ def annotationForms():
                   "no_affs": "object does not readily offer interaction"}
 
     con_move = {"roll": ["can be rolled", "eg. ball"],
-                "push": ["should be pushed", 'eg. stroller'],
-                "drag": ["should be dragged", "eg. rubbish bin"],
+                "push": ["can be pushed", 'eg. stroller'],
+                "drag": ["can be dragged", "eg. rubbish bin"],
                 "tether": ["is tethered", "eg. wired computer mouse"]
                 }
 
