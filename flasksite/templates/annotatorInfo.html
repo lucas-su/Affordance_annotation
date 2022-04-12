@@ -120,13 +120,13 @@
                  </div>
                 {% endfor%}
                 {% for form, highlevel in zip(forms[2:], forms[0].keys()) %}
-                <div class="row" style="padding-top:15px;">
+                <div class="row aff_super_div" style="padding-top:15px;">
                     <div class="col">
                         <div class="card" >
                             <div class="card-header">
                                 <div class="input-group flex-nowrap" >
                                     <div class="input-group-text" style="background-color:inherit; border-style: none;">
-                                        <input class="form-check-input mt-0"  type="checkbox" name="{{ highlevel }}" id="{{ highlevel }}" >
+                                        <input class="form-check-input mt-0 highlevel_aff"  type="checkbox" name="{{ highlevel }}" id="{{ highlevel }}" >
                                     </div>
                                     <span class="input-group-text" style="white-space:normal; background-color:inherit; border-style: none;"><h5 style="margin-bottom:0;">{{ forms[0][highlevel] }}</h5></span>
                                 </div>
@@ -137,7 +137,7 @@
 
                                 <div class="input-group flex-nowrap">
                                     <div class="input-group-text">
-                                        <input class="form-check-input mt-0 {{ highlevel }}" type="checkbox" id="{{ item }}" name="{{ item }}">
+                                        <input class="form-check-input mt-0 lowlevel_aff {{ highlevel }}" type="checkbox" id="{{ item }}" name="{{ item }}">
                                     </div>
                                   <span class="input-group-text bg-white" style="white-space:normal;">{{ form[item][0] }}</span>
                                   <span class="input-group-text bg-white text-muted" style="white-space:normal;">{{ form[item][1] }}</span>

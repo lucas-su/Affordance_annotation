@@ -19,6 +19,7 @@ function enable_disable_submit(){
 $(".con_move").change(function(){
     if(this.checked) {
     document.getElementById('con_move').checked = true;
+    document.getElementById('no_clue').checked = false;
     }
     enable_disable_submit();
 });
@@ -26,6 +27,7 @@ $(".con_move").change(function(){
 $(".uncon_move").change(function(){
     if(this.checked) {
     document.getElementById('uncon_move').checked = true;
+    document.getElementById('no_clue').checked = false;
     }
     enable_disable_submit();
 });
@@ -33,6 +35,7 @@ $(".uncon_move").change(function(){
 $(".dir_affs").change(function(){
     if(this.checked) {
     document.getElementById('dir_affs').checked = true;
+    document.getElementById('no_clue').checked = false;
     }
     enable_disable_submit();
 });
@@ -40,6 +43,7 @@ $(".dir_affs").change(function(){
 $(".indir_affs").change(function(){
     if(this.checked) {
     document.getElementById('indir_affs').checked = true;
+    document.getElementById('no_clue').checked = false;
     }
     enable_disable_submit();
 });
@@ -47,6 +51,7 @@ $(".indir_affs").change(function(){
 $(".observe_affs").change(function(){
     if(this.checked) {
     document.getElementById('observe_affs').checked = true;
+    document.getElementById('no_clue').checked = false;
     }
     enable_disable_submit();
 });
@@ -54,6 +59,7 @@ $(".observe_affs").change(function(){
 $(".social_affs").change(function(){
     if(this.checked) {
     document.getElementById('social_affs').checked = true;
+    document.getElementById('no_clue').checked = false;
     }
     enable_disable_submit();
 });
@@ -61,6 +67,7 @@ $(".social_affs").change(function(){
 $(".no_affs").change(function(){
     if(this.checked) {
     document.getElementById('no_affs').checked = true;
+    document.getElementById('no_clue').checked = false;
     }
     enable_disable_submit();
 });
@@ -71,6 +78,8 @@ $(document.getElementById('con_move')).change(function(){
     $(".con_move").each(function(){
         this.checked = false;
     })
+    } else {
+    document.getElementById('no_clue').checked = false;
     }
 });
 
@@ -80,6 +89,8 @@ $(document.getElementById('uncon_move')).change(function(){
     $(".uncon_move").each(function(){
         this.checked = false;
     })
+    } else {
+    document.getElementById('no_clue').checked = false;
     }
 });
 
@@ -89,6 +100,8 @@ $(document.getElementById('dir_affs')).change(function(){
     $(".dir_affs").each(function(){
         this.checked = false;
     })
+    } else {
+    document.getElementById('no_clue').checked = false;
     }
 });
 
@@ -98,6 +111,8 @@ $(document.getElementById('indir_affs')).change(function(){
     $(".indir_affs").each(function(){
         this.checked = false;
     })
+    } else {
+    document.getElementById('no_clue').checked = false;
     }
 });
 
@@ -107,6 +122,8 @@ $(document.getElementById('observe_affs')).change(function(){
     $(".observe_affs").each(function(){
         this.checked = false;
     })
+    } else {
+    document.getElementById('no_clue').checked = false;
     }
 });
 
@@ -116,6 +133,8 @@ $(document.getElementById('social_affs')).change(function(){
     $(".social_affs").each(function(){
         this.checked = false;
     })
+    } else {
+    document.getElementById('no_clue').checked = false;
     }
 });
 
@@ -125,10 +144,21 @@ $(document.getElementById('no_affs')).change(function(){
     $(".no_affs").each(function(){
         this.checked = false;
     })
+    } else {
+    document.getElementById('no_clue').checked = false;
     }
 });
 
 $(document.getElementById('no_clue')).change(function(){
+    if(this.checked == true){
+        $(".aff_super_div").each(function(){
+        this.hidden = true;
+        })
+    } else {
+    $(".aff_super_div").each(function(){
+        this.hidden = false;
+        })
+    }
     enable_disable_submit();
 });
 
@@ -152,9 +182,13 @@ $(document).ready(function() {
 
 $(document.getElementById('no_clue')).change(function(){
     if (this.checked){
-
+        $(".highlevel_aff").each(function(){
+        this.checked = false;
+        })
+        $(".lowlevel_aff").each(function(){
+            this.checked = false;
+        })
     }
-
     if(document.getElementById('con_move').checked ||
     document.getElementById('uncon_move').checked ||
     document.getElementById('dir_affs').checked ||
