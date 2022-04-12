@@ -128,6 +128,10 @@ $(document.getElementById('no_affs')).change(function(){
     }
 });
 
+$(document.getElementById('no_clue')).change(function(){
+    enable_disable_submit();
+});
+
 $(document.getElementById('main_form_submit')).click(function(){
     if(document.getElementById('no_clue').checked ||
     document.getElementById('con_move').checked ||
@@ -145,6 +149,25 @@ $(document.getElementById('main_form_submit')).click(function(){
 $(document).ready(function() {
     document.getElementById('main_form_submit').disabled = true;
 });
+
+$(document.getElementById('no_clue')).change(function(){
+    if (this.checked){
+
+    }
+
+    if(document.getElementById('con_move').checked ||
+    document.getElementById('uncon_move').checked ||
+    document.getElementById('dir_affs').checked ||
+    document.getElementById('indir_affs').checked ||
+    document.getElementById('observe_affs').checked ||
+    document.getElementById('social_affs').checked ||
+    document.getElementById('no_affs').checked
+    ){
+    document.getElementById('mainform').submit();
+    }
+});
+
+
 
 
 //$(document).ready(function() {

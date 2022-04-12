@@ -168,7 +168,7 @@ def connect(secrets):
 if __name__ == "__main__":
 
     forms = annotationForms()
-    with open('secrets.json') as file:
+    with open(os.path.dirname(os.path.abspath(__file__))+'/secrets.json') as file:
         secrets = json.load(file)
 
     serve(app, listen="*:8081")
