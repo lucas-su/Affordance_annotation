@@ -19,7 +19,7 @@ def set_params():
     obj_exclude = {}
     obj_n = {}
 
-    with open("transfer table.csv") as file:
+    with open("../flasksite/transfer table.csv") as file:
         data = file.readlines()
 
     for line in data:
