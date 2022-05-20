@@ -129,7 +129,7 @@ def getNewPosts(name):
           'AND NOT anno_1_id <=> %s ' \
           'AND NOT anno_2_id <=> %s ' \
           'AND exclude <=> %s ' \
-          'ORDER BY rank DESC ' \
+          'ORDER BY `rank` DESC ' \
           'LIMIT 1'
     variables = (id, id, 0)
     mycursor.execute(sql, variables)
