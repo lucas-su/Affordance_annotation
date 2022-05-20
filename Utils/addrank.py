@@ -52,12 +52,8 @@ def set_params():
         assert object[0] in obj_n.keys()
 
     for object in all_objects:
-        sql = f"UPDATE {annot_table_name} SET exclude = %s WHERE object_label = %s"
-        variables = [obj_exclude[object[0]], object[0]]
-        mycursor.execute(sql, variables)
-
-        sql = f"UPDATE {annot_table_name} SET rank = %s WHERE object_label = %s"
-        variables = [obj_n[object[0]], object[0]]
+        sql = f"UPDATE {annot_table_name} SET exclude = %s, `rank` = %s WHERE object_label = %s"
+        variables = [obj_exclude[object[0]], obj_n[object[0]], object[0]]
         mycursor.execute(sql, variables)
 
 
