@@ -128,9 +128,10 @@ def getNewPosts(name):
           'WHERE anno_3_id IS NULL ' \
           'AND NOT anno_1_id <=> %s ' \
           'AND NOT anno_2_id <=> %s ' \
-          'ORDER BY RAND() ' \
+          'AND exclude <=> %s ' \
+          'ORDER BY rank DESC ' \
           'LIMIT 1'
-    variables = (id, id)
+    variables = (id, id, 0)
     mycursor.execute(sql, variables)
     label = next(mycursor)
     mydb.close()
