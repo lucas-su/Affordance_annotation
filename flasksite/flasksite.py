@@ -79,7 +79,7 @@ def saveAnnotation(form):
     id = next(mycursor)[0]
 
 
-    sql = 'SELECT anno_1_id, anno_2_id, anno_3_id FROM web_annotations WHERE object_label = %s'
+    sql = 'SELECT anno_1_id, anno_2_id, anno_3_id FROM web_annotations WHERE object_label = %s LIMIT 1'
     currentObject = form.get('currentObject')
     variables = (currentObject,)
     mycursor.execute(sql, variables)
